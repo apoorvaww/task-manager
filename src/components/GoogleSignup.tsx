@@ -1,28 +1,29 @@
-'use client'
+"use client";
 
 import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import React from "react";
 
+export function useGoogleSignIn() {
+  const router = useRouter();
 
-export const signInWithGoogle = async (router: any) => {
+  const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: "select_account" });
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log("Google user: ", user);
-      router.push('/dashboard')
+
+      setTimeout(() => {
+        router.push("/dashboard")
+      }, 0);
+      
     } catch (error) {
       console.error("Error signing in with Google: ", error);
     }
   };
 
-
-export default function GoogleSignup() {
-  return (
-    <div>
-      <button onClick={signInWithGoogle}>sign in using google</button>
-    </div>
-  );
+  return { signInWithGoogle };
 }

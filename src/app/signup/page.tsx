@@ -1,6 +1,6 @@
 "use client";
 
-import { signInWithGoogle } from "@/components/GoogleSignup";
+import { useGoogleSignIn } from "@/components/GoogleSignup";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,7 +29,9 @@ export default function SignUp() {
 
   const router = useRouter();
 
-  /// password authentication: 
+  const { signInWithGoogle } = useGoogleSignIn();
+
+  /// password authentication:
   const signUp = async () => {
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -46,7 +48,6 @@ export default function SignUp() {
         console.error("error during sign up: ", error.message);
       });
   };
-
 
   const logout = async () => {
     signOut(auth)
@@ -112,20 +113,22 @@ export default function SignUp() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-              {error && (
-                <p className="text-red-500 text-sm">{error}</p>
-              )}
+              {error && <p className="text-red-500 text-sm">{error}</p>}
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full cursor-pointer" onClick={signUp}>
+          <Button
+            type="submit"
+            className="w-full cursor-pointer"
+            onClick={signUp}
+          >
             Sign up
           </Button>
           <Button
             variant="outline"
             className="w-full cursor-pointer"
-            onClick={() => signInWithGoogle(router)}
+            onClick={signInWithGoogle}
           >
             Sign up with Google
           </Button>
