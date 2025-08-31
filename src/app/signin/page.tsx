@@ -84,7 +84,7 @@ export default function SignIn() {
           <Button type="submit" className="w-full cursor-pointer" onClick={signIn}>
             Login
           </Button>
-          <Button variant="outline" className="w-full cursor-pointer" onClick={signInWithGoogle}>
+          <Button variant="outline" className="w-full cursor-pointer" onClick={() => signInWithGoogle(router)}>
             Login with Google
           </Button>
         </CardFooter>

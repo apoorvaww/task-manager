@@ -14,9 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/firebase";
 import { Label } from "@radix-ui/react-label";
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { signOut } from "firebase/auth";
-import firebase from "firebase/compat/app";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -126,7 +125,7 @@ export default function SignUp() {
           <Button
             variant="outline"
             className="w-full cursor-pointer"
-            onClick={signInWithGoogle}
+            onClick={() => signInWithGoogle(router)}
           >
             Sign up with Google
           </Button>
