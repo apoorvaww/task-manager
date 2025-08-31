@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signInWithGoogle } from "@/components/GoogleSignup";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -83,7 +84,7 @@ export default function SignIn() {
           <Button type="submit" className="w-full cursor-pointer" onClick={signIn}>
             Login
           </Button>
-          <Button variant="outline" className="w-full cursor-pointer">
+          <Button variant="outline" className="w-full cursor-pointer" onClick={signInWithGoogle}>
             Login with Google
           </Button>
         </CardFooter>

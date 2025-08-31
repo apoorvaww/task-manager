@@ -1,5 +1,6 @@
 "use client";
 
+import { signInWithGoogle } from "@/components/GoogleSignup";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,29 +14,40 @@ import {
 import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/firebase";
 import { Label } from "@radix-ui/react-label";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider } from "firebase/auth";
 import { signOut } from "firebase/auth";
+import firebase from "firebase/compat/app";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
+  const router = useRouter();
+
+  /// password authentication: 
   const signUp = async () => {
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      toast("Passwords do not match.");
+      return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("user: ", user);
+        router.push("/dashboard");
       })
       .catch((error) => {
         console.error("error during sign up: ", error.message);
       });
   };
+
 
   const logout = async () => {
     signOut(auth)
@@ -76,28 +88,46 @@ export default function SignUp() {
                   type="email"
                   placeholder="m@example.com"
                   required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="confirmPassword">Confirm Password</Label>
                 </div>
-                <Input id="confirmPassword" type="password" required />
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
               </div>
+              {error && (
+                <p className="text-red-500 text-sm">{error}</p>
+              )}
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full cursor-pointer">
+          <Button type="submit" className="w-full cursor-pointer" onClick={signUp}>
             Sign up
           </Button>
-          <Button variant="outline" className="w-full cursor-pointer">
+          <Button
+            variant="outline"
+            className="w-full cursor-pointer"
+            onClick={signInWithGoogle}
+          >
             Sign up with Google
           </Button>
         </CardFooter>
