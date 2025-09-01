@@ -17,6 +17,7 @@ import {
   updateTask,
 } from "@/services/taskService";
 import { Task } from "@/types/task";
+import Navbar from "@/components/Navbar";
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -142,19 +143,7 @@ export default function DashboardPage() {
 
       <main className="flex-1 p-4 sm:p-6 lg:p-8 flex flex-col">
         <header className="flex justify-end items-center pb-6 border-b border-border gap-4">
-          {user && (
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">
-                Welcome back,{" "}
-                <span className="font-medium">{user.displayName}</span>
-              </span>
-              <img
-                src={user.photoURL ?? ""}
-                alt={user.displayName ?? "User"}
-                className="h-10 w-10 rounded-full object-cover"
-              />
-            </div>
-          )}
+          <Navbar/>
           <button
             className="md:hidden p-2"
             onClick={() => setSidebarOpen(true)}
@@ -179,7 +168,7 @@ export default function DashboardPage() {
           </Button>
         </form>
 
-        {/* 🔥 Modern heading before tasks */}
+        
         <div className="flex items-center justify-between mt-6 mb-4">
           <h2 className="text-2xl font-semibold tracking-tight">Your Tasks</h2>
           <p className="text-sm text-muted-foreground">

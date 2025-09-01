@@ -1,6 +1,6 @@
 import { db } from "@/lib/firebase";
 import { Task } from "@/types/task";
-import { addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp, Timestamp, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, Timestamp, updateDoc } from "firebase/firestore";
 
 
 //// adding tasks:

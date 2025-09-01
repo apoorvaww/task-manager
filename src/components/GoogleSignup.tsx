@@ -3,7 +3,6 @@
 import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 export function useGoogleSignIn() {
   const router = useRouter();
