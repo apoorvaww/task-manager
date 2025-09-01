@@ -18,6 +18,7 @@ import {
 } from "@/services/taskService";
 import { Task } from "@/types/task";
 import Navbar from "@/components/Navbar";
+import { toast } from "sonner";
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -37,7 +38,9 @@ export default function DashboardPage() {
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      return;
+    };
     const loadTasks = async () => {
       const fetchedTasks = await fetchTasks(user.uid);
       setTasks(fetchedTasks);
@@ -60,6 +63,7 @@ export default function DashboardPage() {
       const createdTask = await addTask(taskk);
       setTasks((prev) => [...prev, createdTask]);
       setNewTask({ title: "", content: "" });
+      toast("Created a new task")
     } catch (error) {
       console.error("Error adding tasks: ", error);
     }
