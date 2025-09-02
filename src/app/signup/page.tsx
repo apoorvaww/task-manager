@@ -46,18 +46,19 @@ export default function SignUp() {
       })
       .catch((error) => {
         console.error("error during sign up: ", error.message);
+        toast.error(error.message)
       });
   };
 
-  const logout = async () => {
-    signOut(auth)
-      .then(() => {
-        console.log("signed out successfully");
-      })
-      .catch((error) => {
-        console.error("error signing out: ", error);
-      });
-  };
+  // const logout = async () => {
+  //   signOut(auth)
+  //     .then(() => {
+  //       console.log("signed out successfully");
+  //     })
+  //     .catch((error) => {
+  //       console.error("error signing out: ", error);
+  //     });
+  // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black px-4 ">
