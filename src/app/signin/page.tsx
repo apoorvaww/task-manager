@@ -18,7 +18,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useGoogleSignIn } from "@/components/GoogleSignup";
-
+import { toast } from "sonner";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -32,11 +32,23 @@ export default function SignIn() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("signed in user: ", user);
-
         router.push("/dashboard");
       })
       .catch((error) => {
-        console.error("error signing in: ", error);
+        if (error.code === "auth/wrong-password") {
+          console.error("Incorrect password");
+          toast("Incorrect password, please try again.");
+        } else if (error.code === "auth/user-not-found") {
+          console.error("No accound found with this email");
+          toast("No account found with this email.");
+        } else if (error.code === "auth/invalid-credential") {
+          console.error("No accound found with this email");
+          toast("Invalid email or password");
+        }
+        else {
+          console.error("Error signing in: ", error.message);
+          toast("Error occurred: ", { description: error.message });
+        }
       });
   };
 
@@ -51,7 +63,12 @@ export default function SignIn() {
             Welcome back to TaskManager! Please enter your details.
           </CardDescription>
           <CardAction>
-            <Link className="text-sm text-gray-800 dark:text-gray-200 dark:hover:text-gray-100 font-semibold hover:text-black" href="/signup">Sign Up</Link>
+            <Link
+              className="text-sm text-gray-800 dark:text-gray-200 dark:hover:text-gray-100 font-semibold hover:text-black"
+              href="/signup"
+            >
+              Sign Up
+            </Link>
           </CardAction>
         </CardHeader>
         <CardContent>
@@ -70,18 +87,30 @@ export default function SignIn() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  
                 </div>
-                <Input id="password" type="password" required onChange={(e) => setPassword(e.target.value)} />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full cursor-pointer" onClick={signIn}>
+          <Button
+            type="submit"
+            className="w-full cursor-pointer"
+            onClick={signIn}
+          >
             Login
           </Button>
-          <Button variant="outline" className="w-full cursor-pointer" onClick={signInWithGoogle}>
+          <Button
+            variant="outline"
+            className="w-full cursor-pointer"
+            onClick={signInWithGoogle}
+          >
             Login with Google
           </Button>
         </CardFooter>

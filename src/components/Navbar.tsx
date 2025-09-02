@@ -36,7 +36,10 @@ export default function Navbar() {
               </span>
             </p>
             <Image
-              src={user.photoURL || "/default-avatar.png"}
+              src={
+                user.photoURL ||
+                "/user.png"
+              }
               alt="Profile"
               width={40}
               height={40}
